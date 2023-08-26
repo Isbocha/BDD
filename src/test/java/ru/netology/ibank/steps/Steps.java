@@ -21,7 +21,7 @@ public class Steps {
     public void authPage(String login, String password) {
         loginPage = Selenide.open("http://localhost:9999", LoginPage.class);
         var code = DataHelper.getAuthInfo();
-        var authInfo = DataHelper.getOthersInfo(login,password);
+        var authInfo = DataHelper.getOthersInfo(login, password);
         var verificationPage = loginPage.validLogin(authInfo);
         dashboardPage = verificationPage.validVerify(DataHelper.getVerificationCodeFor(code));
     }
@@ -31,12 +31,13 @@ public class Steps {
         var cardNumber1 = DataHelper.getFirstCardNumber();
         var cardNumber2 = DataHelper.getSecondCardNumber();
         var transferPage = dashboardPage.transferPage1(cardNumber1);
-       var  dashboardPage = transferPage.transfer(amount, cardNumber2);
+        var dashboardPage = transferPage.transfer(amount, cardNumber2);
     }
 
     @Тогда("баланс его 1 карты из списка на главной странице должен стать 15 000 рублей.")
     public void balance(int cardNumber, int newBalance) {
-        Assertions.assertEquals(newBalance, dashboardPage.getFirstCardBalance());
+        cardNumber = dashboardPage.getFirstCardBalance();
+        Assertions.assertEquals(newBalance, cardNumber);
     }
 }
 
