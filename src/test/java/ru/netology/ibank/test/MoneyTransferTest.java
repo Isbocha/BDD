@@ -1,12 +1,9 @@
 package ru.netology.ibank.test;
 
-import com.codeborne.selenide.Condition;
 import org.junit.jupiter.api.*;
 import ru.netology.ibank.data.DataHelper;
-import ru.netology.ibank.page.DashboardPage;
-import ru.netology.ibank.page.LoginPageV1;
+import ru.netology.ibank.page.LoginPage;
 
-import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.open;
 
@@ -21,7 +18,7 @@ public class MoneyTransferTest {
     @DisplayName("1 Should Successful Transfer From First Card To Second Of The Amount 1000")
     void test01 () { //shouldSuccessfulTransferFromFirstCardToSecondOfTheAmount
 
-        var loginPage = new LoginPageV1();
+        var loginPage = new LoginPage();
         var authInfo = DataHelper.getAuthInfo();
         var verificationPage = loginPage.validLogin(authInfo);
         var verificationCode = DataHelper.getVerificationCodeFor(authInfo);
@@ -37,7 +34,7 @@ public class MoneyTransferTest {
     @DisplayName("2 Should Successful Transfer From Second Card To First Of The Amount 1000")
     void test02() { //shouldSuccessfulTransferFromSecondCardToFirstOfTheAmount
 
-        var loginPage = new LoginPageV1();
+        var loginPage = new LoginPage();
         var authInfo = DataHelper.getAuthInfo();
         var verificationPage = loginPage.validLogin(authInfo);
         var verificationCode = DataHelper.getVerificationCodeFor(authInfo);
@@ -53,7 +50,7 @@ public class MoneyTransferTest {
     @DisplayName("3 Should Successful Transfer From First Card To Second Of The Amount 0")
     void test03() { //shouldSuccessfulTransferFromFirstCardToSecondOfTheAmountZero
 
-        var loginPage = new LoginPageV1();
+        var loginPage = new LoginPage();
         var authInfo = DataHelper.getAuthInfo();
         var verificationPage = loginPage.validLogin(authInfo);
         var verificationCode = DataHelper.getVerificationCodeFor(authInfo);
@@ -69,7 +66,7 @@ public class MoneyTransferTest {
     @DisplayName("4 Should Successful Transfer From Second Card To First Of The Amount 0")
     void test04() { //shouldSuccessfulTransferFromSecondCardToFirstOfTheAmountZero
 
-        var loginPage = new LoginPageV1();
+        var loginPage = new LoginPage();
         var authInfo = DataHelper.getAuthInfo();
         var verificationPage = loginPage.validLogin(authInfo);
         var verificationCode = DataHelper.getVerificationCodeFor(authInfo);
@@ -85,7 +82,7 @@ public class MoneyTransferTest {
     @DisplayName("5 Should Successful Transfer From First Card To Second Of The Amount 1")
     void  test05 () { //shouldSuccessfulTransferFromFirstCardToSecondOfTheAmountOne
 
-        var loginPage = new LoginPageV1();
+        var loginPage = new LoginPage();
         var authInfo = DataHelper.getAuthInfo();
         var verificationPage = loginPage.validLogin(authInfo);
         var verificationCode = DataHelper.getVerificationCodeFor(authInfo);
@@ -101,7 +98,7 @@ public class MoneyTransferTest {
     @DisplayName("6 Should Successful Transfer From Second Card To First Of The Amount 1")
     void test06 () { //shouldSuccessfulTransferFromSecondCardToFirstOfTheAmountOne
 
-        var loginPage = new LoginPageV1();
+        var loginPage = new LoginPage();
         var authInfo = DataHelper.getAuthInfo();
         var verificationPage = loginPage.validLogin(authInfo);
         var verificationCode = DataHelper.getVerificationCodeFor(authInfo);
@@ -117,7 +114,7 @@ public class MoneyTransferTest {
     @DisplayName("7 Should Successful Transfer From First Card To Second Of The Amount 10_000")
     void test07 () { //shouldSuccessfulTransferFromFirstCardToSecondOfTheAmountTenThousand
 
-        var loginPage = new LoginPageV1();
+        var loginPage = new LoginPage();
         var authInfo = DataHelper.getAuthInfo();
         var verificationPage = loginPage.validLogin(authInfo);
         var verificationCode = DataHelper.getVerificationCodeFor(authInfo);
@@ -133,7 +130,7 @@ public class MoneyTransferTest {
     @DisplayName("8 Should Successful Transfer From Second Card To First Of The Amount 10_000")
     void test08 () { //shouldSuccessfulTransferFromSecondCardToFirstOfTheAmountTenThousand
 
-        var loginPage = new LoginPageV1();
+        var loginPage = new LoginPage();
         var authInfo = DataHelper.getAuthInfo();
         var verificationPage = loginPage.validLogin(authInfo);
         var verificationCode = DataHelper.getVerificationCodeFor(authInfo);
@@ -148,7 +145,7 @@ public class MoneyTransferTest {
     @Test
     @DisplayName("9 Should Successful Transfer From First Card To Second Of The Amount 100_000")
     void test09 () { //shouldSuccessfulTransferFromFirstCardToSecondOfTheAmountOneHundredThousand
-        var loginPage = new LoginPageV1();
+        var loginPage = new LoginPage();
         var authInfo = DataHelper.getAuthInfo();
         var verificationPage = loginPage.validLogin(authInfo);
         var verificationCode = DataHelper.getVerificationCodeFor(authInfo);
@@ -166,7 +163,7 @@ public class MoneyTransferTest {
     @DisplayName("10 Should Successful Transfer From Second Card To First Of The Amount 100_000")
     void test10 () { //shouldSuccessfulTransferFromSecondCardToFirstOfTheAmountOneHundredThousand
 
-        var loginPage = new LoginPageV1();
+        var loginPage = new LoginPage();
         var authInfo = DataHelper.getAuthInfo();
         var verificationPage = loginPage.validLogin(authInfo);
         var verificationCode = DataHelper.getVerificationCodeFor(authInfo);

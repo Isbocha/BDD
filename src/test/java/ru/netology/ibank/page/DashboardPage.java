@@ -33,7 +33,7 @@ public class DashboardPage {
 //        cards.last().click();
         return new TransferPage();
     }
-    public DashboardPage update () { // проверить
+    public DashboardPage update () {
       update.click();
     return new DashboardPage();
     }
