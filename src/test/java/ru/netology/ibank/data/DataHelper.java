@@ -17,10 +17,6 @@ public class DataHelper {
         return new AuthInfo("petya", "123qwerty");
     }
 
-    public static AuthInfo getOthersInfo(String login, String password) {
-        return new AuthInfo(login, password);
-    }
-
     @Value
     public static class VerificationCode {
         private String code;
