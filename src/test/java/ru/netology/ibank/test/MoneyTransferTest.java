@@ -15,164 +15,96 @@ public class MoneyTransferTest {
     }
 
     @Test
-    @DisplayName("1 Should Successful Transfer From First Card To Second Of The Amount 1000")
-    void test01 () { //shouldSuccessfulTransferFromFirstCardToSecondOfTheAmount
+    @DisplayName("Should Successful Transfer From First Card To Second Of The Valid Amount")
+    void shouldSuccessfulTransferFromFirstCardToSecondOfTheValidAmountTest() {
 
         var loginPage = new LoginPage();
         var authInfo = DataHelper.getAuthInfo();
         var verificationPage = loginPage.validLogin(authInfo);
         var verificationCode = DataHelper.getVerificationCodeFor(authInfo);
         var dashboardPage = verificationPage.validVerify(verificationCode);
-        var cardNumber1 = DataHelper.getFirstCardNumber();
-        var cardNumber2 = DataHelper.getSecondCardNumber();
-        var transferPage = dashboardPage.transferPage1(cardNumber1);
-        var transferMoney = transferPage.transfer("1000", cardNumber2);
-        Assertions.assertEquals(11_000, dashboardPage.getFirstCardBalance());
-        Assertions.assertEquals(9_000, dashboardPage.getSecondCardBalance());
+        var firstCard = DataHelper.getFirstCardNumber();
+        var secondCard = DataHelper.getSecondCardNumber();
+        var firstCardBalance = dashboardPage.getCardBalance(firstCard);
+        var secondCardBalance = dashboardPage.getCardBalance(secondCard);
+        var amount = DataHelper.validAmount(firstCardBalance);
+        var expectedBalanceFirstCard = firstCardBalance + amount;
+        var expectedBalanceSecondCard = secondCardBalance - amount;
+        var transferPage = dashboardPage.transferPage1(firstCard);
+        var transferMoney = transferPage.validTransfer(String.valueOf(amount), secondCard);
+        var actualBalanceFirstCard = dashboardPage.getCardBalance(firstCard);
+        var actualBalanceSecondCard = dashboardPage.getCardBalance(secondCard);
+        Assertions.assertEquals(expectedBalanceFirstCard, actualBalanceFirstCard);
+        Assertions.assertEquals(expectedBalanceSecondCard, actualBalanceSecondCard);
     }
+
     @Test
-    @DisplayName("2 Should Successful Transfer From Second Card To First Of The Amount 1000")
-    void test02() { //shouldSuccessfulTransferFromSecondCardToFirstOfTheAmount
+    @DisplayName("Should Successful Transfer From Second Card To First Of The Valid Amount")
+    void shouldSuccessfulTransferFromSecondCardToFirstOfTheValidAmountTest() {
 
         var loginPage = new LoginPage();
         var authInfo = DataHelper.getAuthInfo();
         var verificationPage = loginPage.validLogin(authInfo);
         var verificationCode = DataHelper.getVerificationCodeFor(authInfo);
         var dashboardPage = verificationPage.validVerify(verificationCode);
-        var cardNumber1 = DataHelper.getFirstCardNumber();
-        var cardNumber2 = DataHelper.getSecondCardNumber();
-        var transferPage = dashboardPage.transferPage2(cardNumber2);
-        var transferMoney = transferPage.transfer("1000", cardNumber1);
-        Assertions.assertEquals(10_000, dashboardPage.getFirstCardBalance());
-        Assertions.assertEquals(10_000, dashboardPage.getSecondCardBalance());
+        var firstCard = DataHelper.getFirstCardNumber();
+        var secondCard = DataHelper.getSecondCardNumber();
+        var firstCardBalance = dashboardPage.getCardBalance(firstCard);
+        var secondCardBalance = dashboardPage.getCardBalance(secondCard);
+        var amount = DataHelper.validAmount(secondCardBalance);
+        var expectedBalanceFirstCard = firstCardBalance - amount;
+        var expectedBalanceSecondCard = secondCardBalance + amount;
+        var transferPage = dashboardPage.transferPage2(secondCard);
+        var transferMoney = transferPage.validTransfer(String.valueOf(amount), firstCard);
+        var actualBalanceFirstCard = dashboardPage.getCardBalance(firstCard);
+        var actualBalanceSecondCard = dashboardPage.getCardBalance(secondCard);
+        Assertions.assertEquals(expectedBalanceFirstCard, actualBalanceFirstCard);
+        Assertions.assertEquals(expectedBalanceSecondCard, actualBalanceSecondCard);
     }
+
     @Test
-    @DisplayName("3 Should Successful Transfer From First Card To Second Of The Amount 0")
-    void test03() { //shouldSuccessfulTransferFromFirstCardToSecondOfTheAmountZero
+    @DisplayName("Should Successful Transfer From Second Card To First Of The Invalid Amount")
+    void shouldSuccessfulTransferFromFirstCardToSecondOfTheInvalidAmountTest() {
 
         var loginPage = new LoginPage();
         var authInfo = DataHelper.getAuthInfo();
         var verificationPage = loginPage.validLogin(authInfo);
         var verificationCode = DataHelper.getVerificationCodeFor(authInfo);
         var dashboardPage = verificationPage.validVerify(verificationCode);
-        var cardNumber1 = DataHelper.getFirstCardNumber();
-        var cardNumber2 = DataHelper.getSecondCardNumber();
-        var transferPage = dashboardPage.transferPage1(cardNumber1);
-        var transferMoney = transferPage.transfer("", cardNumber2);
-        Assertions.assertEquals(10_000, dashboardPage.getFirstCardBalance());
-        Assertions.assertEquals(10_000, dashboardPage.getSecondCardBalance());
+        var firstCard = DataHelper.getFirstCardNumber();
+        var secondCard = DataHelper.getSecondCardNumber();
+        var firstCardBalance = dashboardPage.getCardBalance(firstCard);
+        var secondCardBalance = dashboardPage.getCardBalance(secondCard);
+        var amount = DataHelper.invalidAmount(firstCardBalance);
+        var transferPage = dashboardPage.transferPage1(firstCard);
+        transferPage.transfer(String.valueOf(amount), firstCard);
+        transferPage.invalidTransfer("Данная операция невозможна, т.к. сумма перевода превышает доступный лимит");
+        var actualBalanceFirstCard = dashboardPage.getCardBalance(firstCard);
+        var actualBalanceSecondCard = dashboardPage.getCardBalance(secondCard);
+        Assertions.assertEquals(firstCardBalance, actualBalanceFirstCard);
+        Assertions.assertEquals(secondCardBalance, actualBalanceSecondCard);
     }
+
     @Test
-    @DisplayName("4 Should Successful Transfer From Second Card To First Of The Amount 0")
-    void test04() { //shouldSuccessfulTransferFromSecondCardToFirstOfTheAmountZero
+    @DisplayName("Should Successful Transfer  From First Card To Second Of The Invalid Amount")
+    void shouldSuccessfulTransferFromSecondCardToFirstOfTheInvalidAmountTest() {
 
         var loginPage = new LoginPage();
         var authInfo = DataHelper.getAuthInfo();
         var verificationPage = loginPage.validLogin(authInfo);
         var verificationCode = DataHelper.getVerificationCodeFor(authInfo);
         var dashboardPage = verificationPage.validVerify(verificationCode);
-        var cardNumber1 = DataHelper.getFirstCardNumber();
-        var cardNumber2 = DataHelper.getSecondCardNumber();
-        var transferPage = dashboardPage.transferPage2(cardNumber2);
-        var transferMoney = transferPage.transfer("", cardNumber1);
-        Assertions.assertEquals(10_000, dashboardPage.getFirstCardBalance());
-        Assertions.assertEquals(10_000, dashboardPage.getSecondCardBalance());
-    }
-    @Test
-    @DisplayName("5 Should Successful Transfer From First Card To Second Of The Amount 1")
-    void  test05 () { //shouldSuccessfulTransferFromFirstCardToSecondOfTheAmountOne
-
-        var loginPage = new LoginPage();
-        var authInfo = DataHelper.getAuthInfo();
-        var verificationPage = loginPage.validLogin(authInfo);
-        var verificationCode = DataHelper.getVerificationCodeFor(authInfo);
-        var dashboardPage = verificationPage.validVerify(verificationCode);
-        var cardNumber1 = DataHelper.getFirstCardNumber();
-        var cardNumber2 = DataHelper.getSecondCardNumber();
-        var transferPage = dashboardPage.transferPage1(cardNumber1);
-        var transferMoney = transferPage.transfer("1", cardNumber2);
-        Assertions.assertEquals(10_001, dashboardPage.getFirstCardBalance());
-        Assertions.assertEquals(9_999, dashboardPage.getSecondCardBalance());
-    }
-    @Test
-    @DisplayName("6 Should Successful Transfer From Second Card To First Of The Amount 1")
-    void test06 () { //shouldSuccessfulTransferFromSecondCardToFirstOfTheAmountOne
-
-        var loginPage = new LoginPage();
-        var authInfo = DataHelper.getAuthInfo();
-        var verificationPage = loginPage.validLogin(authInfo);
-        var verificationCode = DataHelper.getVerificationCodeFor(authInfo);
-        var dashboardPage = verificationPage.validVerify(verificationCode);
-        var cardNumber1 = DataHelper.getFirstCardNumber();
-        var cardNumber2 = DataHelper.getSecondCardNumber();
-        var transferPage = dashboardPage.transferPage2(cardNumber2);
-        var transferMoney = transferPage.transfer("1", cardNumber1);
-        Assertions.assertEquals(10_000, dashboardPage.getFirstCardBalance());
-        Assertions.assertEquals(10_000, dashboardPage.getSecondCardBalance());
-    }
-    @Test
-    @DisplayName("7 Should Successful Transfer From First Card To Second Of The Amount 10_000")
-    void test07 () { //shouldSuccessfulTransferFromFirstCardToSecondOfTheAmountTenThousand
-
-        var loginPage = new LoginPage();
-        var authInfo = DataHelper.getAuthInfo();
-        var verificationPage = loginPage.validLogin(authInfo);
-        var verificationCode = DataHelper.getVerificationCodeFor(authInfo);
-        var dashboardPage = verificationPage.validVerify(verificationCode);
-        var cardNumber1 = DataHelper.getFirstCardNumber();
-        var cardNumber2 = DataHelper.getSecondCardNumber();
-        var transferPage = dashboardPage.transferPage1(cardNumber1);
-        var transferMoney = transferPage.transfer("10000", cardNumber2);
-        Assertions.assertEquals(20_000, dashboardPage.getFirstCardBalance());
-        Assertions.assertEquals(0, dashboardPage.getSecondCardBalance());
-    }
-    @Test
-    @DisplayName("8 Should Successful Transfer From Second Card To First Of The Amount 10_000")
-    void test08 () { //shouldSuccessfulTransferFromSecondCardToFirstOfTheAmountTenThousand
-
-        var loginPage = new LoginPage();
-        var authInfo = DataHelper.getAuthInfo();
-        var verificationPage = loginPage.validLogin(authInfo);
-        var verificationCode = DataHelper.getVerificationCodeFor(authInfo);
-        var dashboardPage = verificationPage.validVerify(verificationCode);
-        var cardNumber1 = DataHelper.getFirstCardNumber();
-        var cardNumber2 = DataHelper.getSecondCardNumber();
-        var transferPage = dashboardPage.transferPage2(cardNumber2);
-        var transferMoney = transferPage.transfer("10000", cardNumber1);
-        Assertions.assertEquals(10_000, dashboardPage.getFirstCardBalance());
-        Assertions.assertEquals(10_000, dashboardPage.getSecondCardBalance());
-    }
-    @Test
-    @DisplayName("9 Should Successful Transfer From First Card To Second Of The Amount 100_000")
-    void test09 () { //shouldSuccessfulTransferFromFirstCardToSecondOfTheAmountOneHundredThousand
-        var loginPage = new LoginPage();
-        var authInfo = DataHelper.getAuthInfo();
-        var verificationPage = loginPage.validLogin(authInfo);
-        var verificationCode = DataHelper.getVerificationCodeFor(authInfo);
-        var dashboardPage = verificationPage.validVerify(verificationCode);
-        var cardNumber1 = DataHelper.getFirstCardNumber();
-        var cardNumber2 = DataHelper.getSecondCardNumber();
-        var transferPage = dashboardPage.transferPage1(cardNumber1);
-        var transferMoney = transferPage.transfer("100000", cardNumber2);
-        Assertions.assertEquals(20_000, dashboardPage.getFirstCardBalance());
-        Assertions.assertEquals(0, dashboardPage.getSecondCardBalance());
-        var transferPage2 = dashboardPage.transferPage2(cardNumber2);
-        var transferMoney2 = transferPage.transfer("100000", cardNumber1);
-    }
-    @Test
-    @DisplayName("10 Should Successful Transfer From Second Card To First Of The Amount 100_000")
-    void test10 () { //shouldSuccessfulTransferFromSecondCardToFirstOfTheAmountOneHundredThousand
-
-        var loginPage = new LoginPage();
-        var authInfo = DataHelper.getAuthInfo();
-        var verificationPage = loginPage.validLogin(authInfo);
-        var verificationCode = DataHelper.getVerificationCodeFor(authInfo);
-        var dashboardPage = verificationPage.validVerify(verificationCode);
-        var cardNumber1 = DataHelper.getFirstCardNumber();
-        var cardNumber2 = DataHelper.getSecondCardNumber();
-        var transferPage = dashboardPage.transferPage2(cardNumber2);
-        var transferMoney = transferPage.transfer("100000", cardNumber1);
-        Assertions.assertEquals(10_000, dashboardPage.getFirstCardBalance());
-        Assertions.assertEquals(10_000, dashboardPage.getSecondCardBalance());
+        var firstCard = DataHelper.getFirstCardNumber();
+        var secondCard = DataHelper.getSecondCardNumber();
+        var firstCardBalance = dashboardPage.getCardBalance(firstCard);
+        var secondCardBalance = dashboardPage.getCardBalance(secondCard);
+        var amount = DataHelper.invalidAmount(secondCardBalance);
+        var transferPage = dashboardPage.transferPage2(secondCard);
+        transferPage.transfer(String.valueOf(amount), firstCard);
+        transferPage.invalidTransfer("Данная операция невозможна, т.к. сумма перевода превышает доступный лимит");
+        var actualBalanceFirstCard = dashboardPage.getCardBalance(firstCard);
+        var actualBalanceSecondCard = dashboardPage.getCardBalance(secondCard);
+        Assertions.assertEquals(firstCardBalance, actualBalanceFirstCard);
+        Assertions.assertEquals(secondCardBalance, actualBalanceSecondCard);
     }
 }
